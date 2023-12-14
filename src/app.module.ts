@@ -12,6 +12,7 @@ import { MongooseModule } from '@nestjs/mongoose';
   }),
   MongooseModule.forRoot(process.env.URL_MONGO),
   ],
+  
   controllers: [AppController],
   providers: [AppService],
 })
