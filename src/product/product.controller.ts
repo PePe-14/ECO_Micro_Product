@@ -8,5 +8,7 @@ export class ProductController {
   @Get()
   getHello(): string {
     return this.appService.getHello();
+
+  
   }
 }
