@@ -1,14 +1,38 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
+import { GrpcMethod } from '@nestjs/microservices';
 import { ProductService } from './product.service';
+import {
+  AddProductRequest,
+  AddProductResponse,
+  getProductByIdRequest,
+  getProductByIdResponse,
+  GetAllProductsResponse,
+  DeleteProductByIdRequest,
+  DeleteProductByIdResponse,
+  Empty,
+} from './product.pb';
 
-@Controller()
+@Controller('product')
 export class ProductController {
-  constructor(private readonly appService: ProductService) {}
+  constructor(private readonly productService: ProductService) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @GrpcMethod('ProductService', 'addProduct')
+  async addProduct(request: AddProductRequest): Promise<AddProductResponse> {
+    return this.productService.addProduct(request);
+  }
 
-  
+  @GrpcMethod('ProductService', 'getProductById')
+  async getProductById(request: getProductByIdRequest): Promise<getProductByIdResponse> {
+    return this.productService.getProductById(request);
+  }
+
+  @GrpcMethod('ProductService', 'getAllProducts')
+  async getAllProducts(request: Empty): Promise<GetAllProductsResponse> {
+    return this.productService.getAllProducts(request);
+  }
+
+  @GrpcMethod('ProductService', 'deleteProductById')
+  async deleteProductById(request: DeleteProductByIdRequest): Promise<DeleteProductByIdResponse> {
+    return this.productService.deleteProductById(request);
   }
 }
